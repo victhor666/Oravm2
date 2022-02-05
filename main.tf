@@ -12,4 +12,5 @@ resource "azurerm_resource_group" "Rg" {
 
 module "red" {
  source = "./modulos/network"
+ Grupo_Recursos=azurerm_resource_group.Rg.name
 }

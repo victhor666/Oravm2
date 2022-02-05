@@ -4,8 +4,8 @@
 #################
 resource "azurerm_virtual_network" "Oracle_Vnet" {
   name                = "${var.nombre}-VNET"
-  resource_group_name = azurerm_resource_group.Rg.name
-  location            = azurerm_resource_group.Rg.location
+  resource_group_name = Grupo_Recursos.Rg.name
+  location            = Grupo_Recursos.Rg.location
   address_space       = [var.vnet_cidr]
 }
 #################
@@ -15,7 +15,7 @@ resource "azurerm_virtual_network" "Oracle_Vnet" {
 resource "azurerm_subnet" "Oracle_Subnet" {
   name                 = "${var.nombre}-SUBNET"
   virtual_network_name = azurerm_virtual_network.Oracle_Vnet.name
-  resource_group_name  = azurerm_resource_group.Rg.name
+  resource_group_name  = Grupo_Recursos.Rg.name
   address_prefixes     = [var.subnet_cidr]
 }
 
@@ -25,8 +25,8 @@ resource "azurerm_subnet" "Oracle_Subnet" {
 
 resource "azurerm_network_security_group" "Oracle_Nsg" {
   name                = "${var.nombre}-NSG"
-  location            = azurerm_resource_group.Rg.location
-  resource_group_name = azurerm_resource_group.Rg.name
+  location            = Grupo_Recursos.Rg.location
+  resource_group_name = Grupo_Recursos.Rg.name
 
   security_rule {
     name                       = "Salida"
