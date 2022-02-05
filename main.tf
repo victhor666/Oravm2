@@ -10,7 +10,8 @@ resource "azurerm_resource_group" "Rg" {
   location = "${var.Region}"
 }
 
-# module "red" {
-#  source = "./modulos/network"
-#  Grupo_Recursos=azurerm_resource_group.Rg.name
-# }
+module "red" {
+ source = "./modulos/network"
+  resource_group_name = azurerm_resource_group.Rg.name
+  location            = azurerm_resource_group.Rg.location
+}
