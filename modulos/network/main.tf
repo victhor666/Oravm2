@@ -17,7 +17,6 @@ resource "azurerm_subnet" "Oracle_Subnet" {
   resource_group_name ="${var.resource_group_name}"
   location            ="${var.location}"
   virtual_network_name = azurerm_virtual_network.Oracle_Vnet.name
-  resource_group_name  = azurerm_resource_group.Rg.name
   address_prefixes     = [var.subnet_cidr]
 }
 

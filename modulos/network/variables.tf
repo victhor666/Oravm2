@@ -10,3 +10,9 @@ variable "vnet_cidr" {
 variable "subnet_cidr" {
   default = "192.168.10.0/24"
 }
+variable "resource_group_name" {
+  default="${azurerm_resource_group.Rg.name}"
+}
+variable "location" {
+  default="${azurerm_resource_group.Rg.location}"
+}

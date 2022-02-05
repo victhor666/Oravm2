@@ -12,6 +12,4 @@ resource "azurerm_resource_group" "Rg" {
 
 module "red" {
  source = "./modulos/network"
-  resource_group_name = azurerm_resource_group.Rg.name
-  location            = azurerm_resource_group.Rg.location
 }
