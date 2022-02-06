@@ -1,6 +1,6 @@
-variable "proyecto" {
+variable "Proyecto" {
   type = string
 }
-variable "location" {
+variable "Location" {
   type = string
 }

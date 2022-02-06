@@ -1,8 +1,8 @@
 #variables para los nombres, tienen que venir del principal
-variable="Proyecto"{
+variable "Proyecto"{
   type=string
 }
-variable "location" {
+variable "Location" {
   type=string
 }
 variable "resource_group_name" {
