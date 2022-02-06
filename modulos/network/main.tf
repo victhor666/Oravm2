@@ -3,9 +3,9 @@
 # VNET
 #################
 resource "azurerm_virtual_network" "Oracle_Vnet" {
-  name                = "${var.nombre}-VNET"
-  resource_group_name ="${var.resource_group_name}"
-  location            ="${var.location}"
+  name                = "${var.Proyecto}-VNET"
+  resource_group_name =var.resource_group_name
+  location            =var.location
   address_space       = [var.vnet_cidr]
 }
 #################
@@ -13,9 +13,9 @@ resource "azurerm_virtual_network" "Oracle_Vnet" {
 #################
 # aws_subnet.terra_sub:
 resource "azurerm_subnet" "Oracle_Subnet" {
-  name                 = "${var.nombre}-SUBNET"
-  resource_group_name ="${var.resource_group_name}"
-  location            ="${var.location}"
+  name                 = "${var.Proyecto}-SUBNET"
+  resource_group_name =var.resource_group_name
+  location            =var.location
   virtual_network_name = azurerm_virtual_network.Oracle_Vnet.name
   address_prefixes     = [var.subnet_cidr]
 }
@@ -25,7 +25,7 @@ resource "azurerm_subnet" "Oracle_Subnet" {
 ######################
 
 resource "azurerm_network_security_group" "Oracle_Nsg" {
-  name                = "${var.nombre}-NSG"
+  name                = "${var.Proyecto}-NSG"
   security_rule {
     name                       = "Salida"
     priority                   = 100

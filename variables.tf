@@ -2,7 +2,7 @@ variable "Region" {
   type=string
   default="eastus"
 }
-variable "Rg" {
+variable "Proyecto" {
   type=string
-  default="Rg-Oracle"
+  default="Oracle"
 }
