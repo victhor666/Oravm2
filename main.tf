@@ -5,8 +5,9 @@ provider "azurerm" {
 ####################
 # GRUPO DE RECURSOS#
 ####################
-resource "azurerm_resource_group" "Rg" {
-  name     = "${var.Proyecto}RG"
+module  "resourcegroup" {
+  source="./modulos/resourcegroup"
+  Proyecto     = var.Proyecto
   Location = var.Region
 }
 ############################
