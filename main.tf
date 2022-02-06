@@ -7,7 +7,7 @@ provider "azurerm" {
 ####################
 resource "azurerm_resource_group" "Rg" {
   name     = "${var.Proyecto}RG"
-  location = var.Region
+  Location = var.Region
 }
 ############################
 # GRUPO DE Elementos de red#
@@ -16,6 +16,6 @@ resource "azurerm_resource_group" "Rg" {
 module "red" {
  source = "./modulos/network"
  Proyecto=var.Proyecto
- location=var.Region
+ Location=var.Region
  resource_group_name = "module.resources.rg_name_output"
 }
