@@ -5,7 +5,7 @@
 resource "azurerm_virtual_network" "Oracle_Vnet" {
   name                = "${var.Proyecto}-VNET"
   resource_group_name =var.resource_group_name
-  location            =var.location
+  location            =var.Location
   address_space       = [var.vnet_cidr]
 }
 #################
@@ -24,7 +24,7 @@ resource "azurerm_subnet" "Oracle_Subnet" {
 
 resource "azurerm_network_security_group" "Oracle_Nsg" {
   name                = "${var.Proyecto}-NSG"
-  location            =var.location
+  location            =var.Location
   resource_group_name = var.resource_group_name
   security_rule {
     name                       = "Salida"
