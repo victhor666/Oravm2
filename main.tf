@@ -18,5 +18,5 @@ module "red" {
  source = "./modulos/network"
  Proyecto=var.Proyecto
  Location=var.Region
- resource_group_name = "module.resources.rg_name_output"
+ resource_group_name = "module.resourcegroup.rg_name_output"
 }
