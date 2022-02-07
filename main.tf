@@ -1,7 +1,17 @@
-provider "azurerm" {
-  features {}
+terraform {
+  required_providers {
+    azurerm = {
+      source = "hashicorp/azurerm"
+      version = "2.88.1"
+    }
+  }
 }
 
+provider "azurerm" {
+  features {
+
+  }
+}
 ####################
 # GRUPO DE RECURSOS#
 ####################
@@ -20,3 +30,7 @@ module "red" {
  Location=var.Region
  resource_group_name = module.RGora.rg_name_output
 }
+
+################################
+# GRUPO DE Elementos de Computo#
+################################
