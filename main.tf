@@ -41,5 +41,5 @@ module "servidor" {
  Location=var.Region
  resource_group_name = module.RGora.rg_name_output
  subnetid = module.red.subnetid
- network_security_group_id=module.red.sgid
+ network_security_group_id = module.red.sgid
 }

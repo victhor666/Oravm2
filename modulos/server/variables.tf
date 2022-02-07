@@ -12,7 +12,9 @@ type=string
 variable  "subnetid"{
 type=string
 }
-
+variables "network_security_group_id"{
+    type=string
+}
 
 variable "osdisk_size" {
   default = "30"
