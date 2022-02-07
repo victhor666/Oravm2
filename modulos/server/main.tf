@@ -5,7 +5,7 @@ resource "azurerm_network_interface" "OraNic" {
 
   ip_configuration {
     name                          = "Configuracion_ip"
-    subnet_id                     = azurerm_subnet.Oracle_Subnet.id
+    subnet_id                     = var.subnetid
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.IpPublica.id
   }
@@ -23,7 +23,7 @@ resource "azurerm_public_ip" "IpPublica" {
 
 resource "azurerm_network_interface_security_group_association" "AsocSG" {
   network_interface_id      = azurerm_network_interface.OraNic.id
-  network_security_group_id = azurerm_network_security_group.Oracle_Nsg.id
+  network_security_group_id = var.network_security_group_id
 }
 resource "azurerm_linux_virtual_machine" "OraVm" {
   name                            = "${var.Proyecto}-vm"

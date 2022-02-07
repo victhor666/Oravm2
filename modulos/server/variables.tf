@@ -12,7 +12,7 @@ type=string
 variable  "subnetid"{
 type=string
 }
-variables "network_security_group_id"{
+variable "network_security_group_id"{
     type=string
 }
 
