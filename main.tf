@@ -5,7 +5,7 @@ provider "azurerm" {
 ####################
 # GRUPO DE RECURSOS#
 ####################
-module  "resourcegroup" {
+module  "RGora" {
   source="./modulos/resourcegroup"
   Proyecto     = var.Proyecto
   Location = var.Region
@@ -18,5 +18,5 @@ module "red" {
  source = "./modulos/network"
  Proyecto=var.Proyecto
  Location=var.Region
- resource_group_name = "module.resourcegroup.rg_name_output"
+ resource_group_name = module.RGora.rg_name_output
 }
