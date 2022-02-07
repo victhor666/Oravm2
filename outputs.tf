@@ -1,39 +1,30 @@
 output "vnet_name" {
   description = "Nombre de la Vnet creada para el Oracle"
-  value       = azurerm_virtual_network.Oracle_Vnet.name
-}
-output "vnet_id" {
-  description = "ID de la Vnet. "
-  value       = azurerm_virtual_network.Oracle_Vnet.id
+  value       = module.red.vnetname
 }
 output "vnet_CIDR" {
   description = "CIDR de la vnet "
-  value       = azurerm_virtual_network.Oracle_Vnet.address_space
+  value       = module.red.vnetaddress
 }
 
 output "Subnet_Name" {
   description = "Nombre de la subred creada "
-  value       = azurerm_subnet.Oracle_Subnet.name
+  value       = module.red.subnetname
 }
-output "Subnet_id" {
-  description = "ID de la subred. "
-  value       = azurerm_subnet.Oracle_Subnet.id
-}
+
 output "Subnet_CIDR" {
   description = "CIDR de la subnet "
-  value       = azurerm_subnet.Oracle_Subnet.address_prefixes
+  value       = module.red.subnetprefix
 }
-
-
 output "vnet_dedicated_security_group_Name" {
   description = "Nombre del grupo de seguridad aplicado a la subred "
-  value       = azurerm_network_security_group.Oracle_Nsg.name
+  value       = module.red.sgname
 }
 output "vnet_dedicated_security_group_id" {
   description = "ID del grupo de seguridad "
-  value       = azurerm_network_security_group.Oracle_Nsg.id
+  value       = module.red.sgid
 }
 output "vnet_dedicated_security_ingress_rules" {
   description = "Reglas de entrada del grupo de seguridad "
-  value       = azurerm_network_security_group.Oracle_Nsg.security_rule
+  value       = module.red.sgirules
 }
