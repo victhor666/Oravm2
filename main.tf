@@ -34,6 +34,7 @@ module "red" {
 ################################
 # GRUPO DE Elementos de Computo#
 ################################
+
 module "servidor" {
  source = "./modulos/server"
  Proyecto=var.Proyecto
