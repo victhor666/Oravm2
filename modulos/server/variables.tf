@@ -9,6 +9,11 @@ variable  "resource_group_name"{
 type=string
 }
 
+variable  "subnetid"{
+type=string
+}
+
+
 variable "osdisk_size" {
   default = "30"
 }

@@ -15,6 +15,10 @@ output "subnetname" {
   description = "Nombre de la subred creada "
   value       = azurerm_subnet.Oracle_Subnet.name
 }
+output "subnetid" {
+  description = "Nombre de la subred creada "
+  value       = azurerm_subnet.Oracle_Subnet.id
+}
 output "subnetprefix" {
   description = "CIDR de la subnet "
   value       = azurerm_subnet.Oracle_Subnet.address_prefixes
@@ -22,6 +26,10 @@ output "subnetprefix" {
 output "sgname" {
   description = "Nombre del grupo de seguridad aplicado a la subred "
   value       = azurerm_network_security_group.Oracle_Nsg.name
+}
+output "sgid" {
+  description = "Nombre del id  de seguridad aplicado a la subred "
+  value       = azurerm_network_security_group.Oracle_Nsg.id
 }
 output "sgirules" {
   description = "Reglas de entrada del grupo de seguridad "
