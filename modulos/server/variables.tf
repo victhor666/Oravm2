@@ -1,5 +1,12 @@
-variable "Nombre_Instancia" {
-  default = "OraVM"
+variable "Proyecto" {
+type=string
+}
+
+variable "Location" {
+type=string  
+}
+variable  "resource_group_name"{
+type=string
 }
 
 variable "osdisk_size" {
