@@ -34,3 +34,9 @@ module "red" {
 ################################
 # GRUPO DE Elementos de Computo#
 ################################
+module "servidor" {
+ source = "./modulos/server"
+ Proyecto=var.Proyecto
+ Location=var.Region
+ resource_group_name = module.RGora.rg_name_output
+}
