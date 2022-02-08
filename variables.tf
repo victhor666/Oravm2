@@ -10,7 +10,7 @@ variable "Proyecto" {
 #variables para aws
 variable "Region-aws" {
   type=string
-  default=""
+  default="eu-central-1"
 }
 variable "Profile" {
   type=string
