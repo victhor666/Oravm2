@@ -24,25 +24,25 @@ module  "RGora" {
 # GRUPO DE Elementos de red en azure#
 #####################################
 
-module "red" {
- source = "./modulos/network"
- Proyecto=var.Proyecto
- Location=var.Region
- resource_group_name = module.RGora.rg_name_output
-}
+    # module "red" {
+    # source = "./modulos/network"
+    # Proyecto=var.Proyecto
+    # Location=var.Region
+    # resource_group_name = module.RGora.rg_name_output
+    # }
 
 #########################################
 # GRUPO DE Elementos de Computo en azure#
 #########################################
 
-module "servidor" {
- source = "./modulos/server"
- Proyecto=var.Proyecto
- Location=var.Region
- resource_group_name = module.RGora.rg_name_output
- subnetid = module.red.subnetid
- network_security_group_id = module.red.sgid
-}
+    # module "servidor" {
+    # source = "./modulos/server"
+    # Proyecto=var.Proyecto
+    # Location=var.Region
+    # resource_group_name = module.RGora.rg_name_output
+    # subnetid = module.red.subnetid
+    # network_security_group_id = module.red.sgid
+    # }
 #############################
 # GRUPO DE RECURSOS en aws  #
 #############################
