@@ -15,11 +15,11 @@ provider "azurerm" {
 #############################
 # GRUPO DE RECURSOS en azure#
 #############################
-module  "RGora" {
-  source="./modulos/resourcegroup"
-  Proyecto     = var.Proyecto
-  Location = var.Region
-}
+  # module  "RGora" {
+  #   source="./modulos/resourcegroup"
+  #   Proyecto     = var.Proyecto
+  #   Location = var.Region
+  # }
 #####################################
 # GRUPO DE Elementos de red en azure#
 #####################################
@@ -52,6 +52,6 @@ provider "aws" {
 }
 
 resource "aws_instance" "web-server" {
-  ami           = "ami-0c2aba6c"
+  ami           = "ami-01143e78af08a2ce2"
   instance_type = "t2.micro"
 }
