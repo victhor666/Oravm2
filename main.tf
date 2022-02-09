@@ -51,7 +51,7 @@ provider "aws" {
   region     = "${var.Region-aws}"
 }
 
- module "servidor-aws" {
+ module "red-aws" {
  source = "./modulos/network-aws"
  Proyecto=var.Proyecto
  Location=var.aws-region
