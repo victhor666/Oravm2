@@ -25,7 +25,7 @@ provider "azurerm" {
 #####################################
 
     # module "red" {
-    # source = "./modulos/network"
+    # source = "./modulos/network-azure"
     # Proyecto=var.Proyecto
     # Location=var.Region
     # resource_group_name = module.RGora.rg_name_output
@@ -36,7 +36,7 @@ provider "azurerm" {
 #########################################
 
     # module "servidor" {
-    # source = "./modulos/server"
+    # source = "./modulos/server-azure"
     # Proyecto=var.Proyecto
     # Location=var.Region
     # resource_group_name = module.RGora.rg_name_output
@@ -51,7 +51,8 @@ provider "aws" {
   region     = "${var.Region-aws}"
 }
 
-resource "aws_instance" "web-server" {
-  ami           = "ami-04a06e18f18e0b807"
-  instance_type = "t2.micro"
-}
+ module "servidor-aws" {
+ source = "./modulos/network-aws"
+ Proyecto=var.Proyecto
+ Location=var.aws-region
+ }
