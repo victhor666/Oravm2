@@ -47,8 +47,8 @@ provider "azurerm" {
 # GRUPO DE RECURSOS en aws  #
 #############################
 provider "aws" {
-  profile    = "${var.Profile}"
-  region     = "${var.Region-aws}"
+  Profile    = "${var.Profile}"
+  Location     = "${var.Region-aws}"
 }
 
  module "red-aws" {

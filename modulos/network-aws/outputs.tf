@@ -62,7 +62,7 @@ output "vpc_dedicated_security_group_id" {
    }
 output "SecurityGroup_ingress_rules" {
        description = "Reglas de entrada en el security group "
-       value       = formatlist("%s:  %s" ,aws_security_group.terra_sg.ingress[*].description,formatlist("%s , CIDR: %s", aws_security_group.terra_sg.ingress[*].to_port,aws_security_group.terra_sg.ingress[*].cidr_blocks[0]))
+       value       = formatlist("%s:  %s" ,aws_security_group.Oracle-SG.ingress[*].description,formatlist("%s , CIDR: %s", aws_security_group.terra_sg.ingress[*].to_port,aws_security_group.terra_sg.ingress[*].cidr_blocks[0]))
        #value       = formatlist("%s:   %s" ,aws_security_group.terra_sg.ingress[*].description,aws_security_group.terra_sg.ingress[*].to_port)
    }      
     
