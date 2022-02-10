@@ -80,7 +80,7 @@ variable "private_ip" {
 # BOOT INFO
 # user data
 variable "user_data" {
-  default = "./userdata.txt"
+  default = "~/Oravm2/azure/user_data_azure.txt"
 }
 
 # EBS
