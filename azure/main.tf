@@ -1,10 +1,18 @@
-#################
-# VNET
-#################
-resource "azurerm_virtual_network" "Oracle_Vnet" {
+#################################
+# GRUPO DE RECURSOS            ##
+#################################
+resource "azurerm_resource_group" "RG" {
+  name     = "${var.prefix}-RG"
+  location = var.Location
+}
+
+############################
+# VNET                    ##
+############################
+resource "azurerm_virtual_network" "Oracle-VNET" {
   name                = "${var.Proyecto}-VNET"
-  resource_group_name =var.resource_group_name
-  location            =var.Location
+  resource_group_name = azurerm_resource_group.RG.name
+  location            = var.Location
   address_space       = [var.vnet_cidr]
 }
 #################
@@ -12,8 +20,8 @@ resource "azurerm_virtual_network" "Oracle_Vnet" {
 #################
 resource "azurerm_subnet" "Oracle_Subnet" {
   name                 = "${var.Proyecto}-SUBNET"
-  resource_group_name = var.resource_group_name
-  virtual_network_name = azurerm_virtual_network.Oracle_Vnet.name
+  resource_group_name = azurerm_resource_group.RG.name
+  virtual_network_name = azurerm_virtual_network.Oracle-VNET.name
   address_prefixes     = [var.subnet_cidr]
 }
 
@@ -21,7 +29,7 @@ resource "azurerm_subnet" "Oracle_Subnet" {
 # GRUPOS DE SEGURIDAD
 ######################
 
-resource "azurerm_network_security_group" "Oracle_Nsg" {
+resource "azurerm_network_security_group" "Oracle-NSG" {
   name                = "${var.Proyecto}-NSG"
   location            =var.Location
   resource_group_name = var.resource_group_name
@@ -56,9 +64,9 @@ resource "azurerm_network_security_group" "Oracle_Nsg" {
   }
 }
 
-resource "azurerm_subnet_network_security_group_association" "nsg_sub" {
-  subnet_id                 = azurerm_subnet.Oracle_Subnet.id
-  network_security_group_id = azurerm_network_security_group.Oracle_Nsg.id
+resource "azurerm_subnet_network_security_group_association" "NSG-SUB" {
+  subnet_id                 = azurerm_subnet.Oracle-SUBNET.id
+  network_security_group_id = azurerm_network_security_group.Oracle-NSG.id
 }
 
 ######################
@@ -67,12 +75,12 @@ resource "azurerm_subnet_network_security_group_association" "nsg_sub" {
 
 
 resource "azurerm_network_interface" "OraNic" {
-  name                = "${var.Proyecto}-nic"
+  name                = "${var.Proyecto}-NIC"
   location            = var.Location
   resource_group_name = var.resource_group_name
 
   ip_configuration {
-    name                          = "Configuracion_ip"
+    name                          = "Configuracion-IP"
     subnet_id                     = var.subnetid
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.IpPublica.id
@@ -81,12 +89,8 @@ resource "azurerm_network_interface" "OraNic" {
 resource "azurerm_public_ip" "IpPublica" {
   name                = "IP-Publica"
   location            = var.Location
-  resource_group_name = var.resource_group_name
+  resource_group_name = azurerm_resource_group.RG.name
   allocation_method   = "Dynamic"
-
-  tags = {
-    app = "IP-publica "
-  }
 }
 
 resource "azurerm_network_interface_security_group_association" "AsocSG" {
@@ -94,9 +98,9 @@ resource "azurerm_network_interface_security_group_association" "AsocSG" {
   network_security_group_id = var.network_security_group_id
 }
 resource "azurerm_linux_virtual_machine" "OraVm" {
-  name                            = "${var.Proyecto}-vm"
+  name                            = "${var.Proyecto}-VM"
   location            = var.Location
-  resource_group_name = var.resource_group_name
+  resource_group_name = azurerm_resource_group.RG.name
   network_interface_ids           = [azurerm_network_interface.OraNic.id]
   size                            = var.vm_size
   computer_name                   = "OracleVM"
@@ -128,3 +132,48 @@ resource "azurerm_linux_virtual_machine" "OraVm" {
     disk_size_gb         = var.osdisk_size
     }
   }
+#################################
+## Agregamos un disco adicional##
+#################################
+
+resource "azurerm_managed_disk" "disco2" {
+  name                            = "${var.Proyecto}-vm-disco2"
+  location                        = azurerm_resource_group.RG.location
+  resource_group_name             = azurerm_resource_group.RG.name
+  storage_account_type            = "Standard_LRS"
+  create_option                   = "Empty"
+  disk_size_gb                    = var.disco2_size
+}
+resource "azurerm_managed_disk" "disco3" {
+  name                            = "${var.prefix}-vm-disco3"
+  location                        = azurerm_resource_group.RG.location
+  resource_group_name             = azurerm_resource_group.RG.name
+  storage_account_type            = "Standard_LRS"
+  create_option                   = "Empty"
+  disk_size_gb                    = var.disco3_size
+}
+#Las esperas son por que no se si hay forma de asignar letras concretas a los volumenes (como en aws) así que los montamos por orden
+resource "null_resource" "previous" {}
+
+resource "time_sleep" "wait_90_seconds" {
+  depends_on = [null_resource.previous]
+
+  create_duration = "90s"
+}
+
+resource "azurerm_virtual_machine_data_disk_attachment" "disco2" {
+  managed_disk_id    = azurerm_managed_disk.disco2.id
+  virtual_machine_id = azurerm_linux_virtual_machine.OraVm.id
+  lun                = "1"
+  caching            = "ReadWrite"
+depends_on = [null_resource.previous]
+}
+
+
+resource "azurerm_virtual_machine_data_disk_attachment" "disco3" {
+  managed_disk_id    = azurerm_managed_disk.disco3.id
+  virtual_machine_id = azurerm_linux_virtual_machine.OraVm.id
+  lun                = "2"
+  caching            = "ReadWrite"
+  depends_on =[azurerm_virtual_machine_data_disk_attachment.disco2]
+}
