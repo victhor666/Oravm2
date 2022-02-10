@@ -130,7 +130,7 @@ resource "aws_security_group" "Oracle-SG" {
 #SERVERS
 #######################
 
-resource "aws_key_pair" "Oracle-Key" {
+resource "aws_key_pair" "Oracle-KEY" {
   key_name   = "${var.Proyecto}-KEY"
   public_key = "${file("~/Oravm2/orauser.pub")}"
   }
@@ -153,7 +153,7 @@ resource "aws_instance" "Oracle-VM" {
   secondary_private_ips        = []
   security_groups              = []
   source_dest_check            = true
-  subnet_id                    = aws_subnet.terra_sub.id
+  subnet_id                    = aws_subnet.Oracle-SUBNET.id
   user_data                    = filebase64(var.user_data_aws)
   vpc_security_group_ids       = [aws_security_group.Oracle-SG.id]
 
@@ -180,10 +180,10 @@ resource "aws_ebs_volume" "Oracle-VOL-DATA" {
 resource "aws_volume_attachment" "Oracle-ATTACHMENT-VOL-ORACLE" {
   device_name = "/dev/sdg"
   volume_id   = aws_ebs_volume.Oracle-VOL-ORACLE.id
-  instance_id = aws_instance.OraVm.id
+  instance_id = aws_instance.Oracle-VM.id
 }
 resource "aws_volume_attachment" "Oracle-ATTACHMENT-VOL-DATA" {
   device_name = "/dev/sdh"
   volume_id   = aws_ebs_volume.Oracle-VOL-DATA.id
-  instance_id = aws_instance.OraVm.id
+  instance_id = aws_instance.Oracle-VM.id
 }
