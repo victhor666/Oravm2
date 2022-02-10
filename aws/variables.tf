@@ -46,10 +46,11 @@ variable "Location" {
         default = "30"
       }
       variable "instance_type" {
-        default = "t2.micro"
+        default = "t2.small"
       }
       variable "ami_id" {
-        default   = "ami-0fe31afc27340dc76"
+        #default   = "ami-0fe31afc27340dc76" -->con soporte de cognosys
+        default   = "ami-0484afc52074f4f84"
      }
 
 # VNIC INFO

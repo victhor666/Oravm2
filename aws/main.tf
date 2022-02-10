@@ -178,12 +178,12 @@ resource "aws_ebs_volume" "Oracle-VOL-DATA" {
   size              = 10
 }
 resource "aws_volume_attachment" "Oracle-ATTACHMENT-VOL-ORACLE" {
-  device_name = "/dev/sdg"
+  device_name = "/dev/sdd"
   volume_id   = aws_ebs_volume.Oracle-VOL-ORACLE.id
   instance_id = aws_instance.Oracle-VM.id
 }
 resource "aws_volume_attachment" "Oracle-ATTACHMENT-VOL-DATA" {
-  device_name = "/dev/sdh"
+  device_name = "/dev/sde"
   volume_id   = aws_ebs_volume.Oracle-VOL-DATA.id
   instance_id = aws_instance.Oracle-VM.id
 }
