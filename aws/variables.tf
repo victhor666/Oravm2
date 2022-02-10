@@ -60,7 +60,7 @@ variable "Location" {
 # BOOT INFO      
   # user data
       variable "user_data_aws" {
-        default = "./user_data_aws.txt"
+        default = "~/Oravm2/aws/user_data_aws.txt"
       }     
       variable "block_storage_size_in_gbs" {
         default = "10"
