@@ -123,9 +123,6 @@ sudo mkdir /oraInventory/
 sudo chown oracle:oinstall /oraInventory/
 sudo chmod 755 /oraInventory/
 
-echo "----------------verificacion de que se cumplen los requisitos----------------">> $LOG
-sudo su - oracle -c "/oracle/GRIDINF/19C/soft/runcluvfy.sh stage -pre hacfg" >> $LOG
-
 #ejecutamos la instalacion de grid
 sudo echo "----------------Instalacion de grid----------------">> $LOG
 sudo su - oracle -c "/oracle/GRIDINF/19C/soft/gridSetup.sh -silent -responseFile /tmp/$CONFIG1" >> $LOG
