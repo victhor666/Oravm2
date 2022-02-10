@@ -37,7 +37,7 @@ sudo mkfs.xfs /dev/xvdd1
 sudo partprobe /dev/xvdd1 
 sudo mkdir -p /oracle
 sudo mount /dev/xvdd1 /oracle
-sudo echo UUID=\"`(blkid /dev/sdc1 -s UUID -o value)`\" /oracle        xfs     defaults,nofail         1       2 >> /etc/fstab
+sudo echo UUID=\"`(blkid /dev/xvdd1 -s UUID -o value)`\" /oracle        xfs     defaults,nofail         1       2 >> /etc/fstab
 
 #tareas administrativas
 echo "----------------Creación de directorios oracle----------------">> $LOG
