@@ -171,11 +171,11 @@ resource "aws_instance" "Oracle-VM" {
 
 resource "aws_ebs_volume" "Oracle-VOL-ORACLE" {
   availability_zone = data.aws_availability_zones.Oracle-AD.names[0]
-  size              = var.VO-ORACLE-SIZE
+  size              = var.VOL-ORACLE-SIZE
 }
 resource "aws_ebs_volume" "Oracle-VOL-DATA" {
   availability_zone = data.aws_availability_zones.Oracle-AD.names[0]
-  size              = var.VO-DATA-SIZE
+  size              = var.VOL-DATA-SIZE
 }
 resource "aws_volume_attachment" "Oracle-ATTACHMENT-VOL-ORACLE" {
   device_name = "/dev/sdd"
