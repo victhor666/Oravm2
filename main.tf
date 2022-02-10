@@ -36,7 +36,7 @@ provider "azurerm" {
 #########################################
 
     # module "servidor" {
-    # source = "./modulos/server-azure"
+    # source = "./azure"
     # Proyecto=var.Proyecto
     # Location=var.Region
     # resource_group_name = module.RGora.rg_name_output
@@ -51,8 +51,8 @@ provider "aws" {
   region     = "${var.Region-aws}"
 }
 
- module "red-aws" {
- source = "./modulos/network-aws"
+ module "aws" {
+ source = "./aws"
  Proyecto=var.Proyecto
  Location=var.Region-aws
  }

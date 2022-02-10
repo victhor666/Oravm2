@@ -1,3 +1,8 @@
+###############################
+### OUTPUTS RED
+###############################
+
+
 output "vpc_Name" {
       description = "Nombre VPC. "
       value       = "${lookup(aws_vpc.Oracle-VPC.tags, "Name")}"

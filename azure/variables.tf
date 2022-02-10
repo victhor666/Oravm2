@@ -1,3 +1,27 @@
+#variables para los nombres, tienen que venir del principal
+# GENERALES
+variable "Proyecto"{
+  type=string
+}
+variable "Location" {
+  type=string
+}
+variable "resource_group_name" {
+  type=string
+}
+###########################
+# variables para vnet
+###########################
+variable "vnet_cidr" {
+  default = "192.168.0.0/16"
+}
+# INFO SUBNET
+variable "subnet_cidr" {
+  default = "192.168.10.0/24"
+}
+#########
+#SERVIDOR
+#########
 variable "Proyecto" {
 type=string
 }
@@ -19,12 +43,12 @@ variable "network_security_group_id"{
 variable "osdisk_size" {
   default = "30"
 }
-# variable "disco2_size" {
-#   default = "7"
-# }
-# variable "disco3_size" {
-#   default = "10"
-# }
+ variable "disco2_size" {
+   default = "25"
+ }
+ variable "disco3_size" {
+   default = "10"
+ }
 variable "vm_size" {
   default = "Standard_B2ms"
 }

@@ -1,4 +1,4 @@
- terraform {
+terraform {
       required_version = ">= 0.12.0"
     }
 # Provider specific configs
@@ -9,7 +9,7 @@
 #}
 ###########################################
 # Datos de las zonas de  de disponibilidad 
-###########################################
+
 data "aws_availability_zones" "Oracle-AD" {
   state = "available"
   filter {
@@ -19,7 +19,7 @@ data "aws_availability_zones" "Oracle-AD" {
 }    
 #################
 # VPC
-#################
+
 resource "aws_vpc" "Oracle-VPC" {
     cidr_block                       = var.vpc_cidr
     tags                             = {
@@ -28,7 +28,7 @@ resource "aws_vpc" "Oracle-VPC" {
 }
 #################
 # SUBNET
-#################
+
 
 resource "aws_subnet" "Oracle-SUBNET" {
     vpc_id                          = aws_vpc.Oracle-VPC.id
@@ -41,8 +41,8 @@ resource "aws_subnet" "Oracle-SUBNET" {
 }
 ######################
 # Internet Gateway
-###################### 
-# aws_internet_gateway.terra_igw:
+ 
+
 resource "aws_internet_gateway" "Oracle-IGW" {
     vpc_id   = aws_vpc.Oracle-VPC.id
     tags     = {
@@ -51,7 +51,7 @@ resource "aws_internet_gateway" "Oracle-IGW" {
 }
 ######################
 # Route Table
-###################### 
+ 
 
 resource "aws_route_table" "Oracle-ROUTETABLE" {
     vpc_id  = aws_vpc.Oracle-VPC.id
@@ -73,7 +73,7 @@ resource "aws_route_table_association" "RouteTable-Asociacion" {
 
 ######################
 # Security Group
-######################    
+    
 
 resource "aws_security_group" "Oracle-SG" {
     name        = "${var.Proyecto}-SG"
@@ -124,4 +124,66 @@ resource "aws_security_group" "Oracle-SG" {
     Name = "${var.Proyecto}-RG"
   }
 
+}
+
+#######################
+#SERVERS
+#######################
+
+resource "aws_key_pair" "Oracle-Key" {
+  key_name   = "${var.Proyecto}-KEY"
+  public_key = "${file("~/Oravm2/orauser.pub")}"
+  }
+resource "aws_ami" "OraVm" {
+  name                = "${var.Proyecto}-VM"
+  description         = "Servidor Oracle"
+  virtualization_type = "hvm"
+  #root_device_name    = "/dev/xvda"
+  ami                          = var.ami_id
+  instance_type                = var.instance_type
+  availability_zone            = data.aws_availability_zones.Oracle-AD.names[0]
+  disable_api_termination      = false
+  ebs_optimized                = false
+  get_password_data            = false
+  hibernation                  = false
+  private_ip                   = var.private_ip
+  associate_public_ip_address  = var.map_public_ip_on_launch
+  key_name                     = aws_key_pair.Oracle-KEY.key_name
+  monitoring                   = false
+  secondary_private_ips        = []
+  security_groups              = []
+  source_dest_check            = true
+  subnet_id                    = aws_subnet.terra_sub.id
+  user_data                    = filebase64(var.user_data_aws)
+  vpc_security_group_ids       = [aws_security_group.Oracle-SG.id]
+
+#   ebs_block_device {
+#     device_name = "/dev/xvda"
+#     volume_size = 30
+#   }
+   root_block_device {
+        delete_on_termination = true
+        encrypted             = false
+        # iops                  = 100
+        volume_size           = 30
+    }
+}
+
+resource "aws_ebs_volume" "Oracle-VOL-ORACLE" {
+  availability_zone = data.aws_availability_zones.Oracle-AD.names[0]
+  size              = 25
+}
+resource "aws_ebs_volume" "Oracle-VOL-DATA" {
+  availability_zone = data.aws_availability_zones.Oracle-AD.names[0]
+  size              = 10
+}
+resource "aws_volume_attachment" "Oracle-ATTACHMENT-VOL-ORACLE" {
+  device_name = "/dev/sdg"
+  volume_id   = aws_ebs_volume.Oracle-VOL-ORACLE.id
+  instance_id = aws_instance.OraVm.id
+}
+resource "aws_volume_attachment" "Oracle-ATTACHMENT-VOL-ORACLE" {
+  device_name = "/dev/sdh"
+  volume_id   = aws_ebs_volume.Oracle-VOL-DATA.id
+  instance_id = aws_instance.OraVm.id
 }
