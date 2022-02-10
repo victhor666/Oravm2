@@ -49,10 +49,7 @@ variable "Location" {
         default = "t2.micro"
       }
       variable "ami_id" {
-        type = string
-        default   = {
-        OL79      = "ami-0fe31afc27340dc76"
-         }
+        default   = "ami-0fe31afc27340dc76"
      }
 
 # VNIC INFO

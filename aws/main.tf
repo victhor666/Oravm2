@@ -182,7 +182,7 @@ resource "aws_volume_attachment" "Oracle-ATTACHMENT-VOL-ORACLE" {
   volume_id   = aws_ebs_volume.Oracle-VOL-ORACLE.id
   instance_id = aws_instance.OraVm.id
 }
-resource "aws_volume_attachment" "Oracle-ATTACHMENT-VOL-ORACLE" {
+resource "aws_volume_attachment" "Oracle-ATTACHMENT-VOL-DATA" {
   device_name = "/dev/sdh"
   volume_id   = aws_ebs_volume.Oracle-VOL-DATA.id
   instance_id = aws_instance.OraVm.id
