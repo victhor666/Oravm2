@@ -135,10 +135,10 @@ resource "aws_key_pair" "Oracle-KEY" {
   public_key = "${file("~/Oravm2/orauser.pub")}"
   }
 resource "aws_instance" "Oracle-VM" {
-  name                = "${var.Proyecto}-VM"
-  description         = "Servidor Oracle"
-  virtualization_type = "hvm"
-  #root_device_name    = "/dev/xvda"
+#   name                = "${var.Proyecto}-VM"
+#   description         = "Servidor Oracle"
+#   virtualization_type = "hvm"
+#   root_device_name    = "/dev/xvda"
   ami                          = var.ami_id
   instance_type                = var.instance_type
   availability_zone            = data.aws_availability_zones.Oracle-AD.names[0]
