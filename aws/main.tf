@@ -134,7 +134,7 @@ resource "aws_key_pair" "Oracle-Key" {
   key_name   = "${var.Proyecto}-KEY"
   public_key = "${file("~/Oravm2/orauser.pub")}"
   }
-resource "aws_ami" "OraVm" {
+resource "aws_instance" "Oracle-VM" {
   name                = "${var.Proyecto}-VM"
   description         = "Servidor Oracle"
   virtualization_type = "hvm"
