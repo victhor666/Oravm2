@@ -17,30 +17,26 @@ LOG="/tmp/script.log"
 sudo echo "Arrancamos el script de instalacion" > $LOG
 # Usamos el waagent para poner la swap. Lo idear es no usar esto por portabilidad a otros clouders...pero es tan comodo (ojo, la maquina tiene que tener al menos 15GB de espacio temporal)
 echo "agregando swap" >> $LOG
-sudo echo "esperando a que tengamos fichero del agente" >> $LOG
-until [ -f /etc/waagent.conf ]
-do
-     sleep 10
-done
-sudo service waagent stop >> $LOG
-sudo sed -i 's/ResourceDisk.Format=n/ResourceDisk.Format=y/g' /etc/waagent.conf
-sudo sed -i 's/ResourceDisk.EnableSwap=n/ResourceDisk.EnableSwap=y/g' /etc/waagent.conf
-sudo sed -i 's/ResourceDisk.SwapSizeMB=0/ResourceDisk.SwapSizeMB=15000/g' /etc/waagent.conf
-sudo cat /etc/waagent.conf |grep Swap >> $LOG
-sudo service waagent start >> $LOG
+sudo fallocate -l 15G /15GBswap
+sudo mkswap /15GBswap >> $LOG
+sudo chmod 0600 /15GBswap
+sudo swapon /15GBswap  >> $LOG
+sudo echo "/15GB.swap  none  swap  sw 0  0" >> /etc/fstab
+
+
 #Particionando los discos
 sudo echo "Esperamos a que se monte el disco"
-until [ -b /dev/sdc ]
+until [ -b /dev/xvdd1 ]
 do
      sleep 5
 done
 
 echo "formateamos disco2 para software de oracle en xfs" >> $LOG
-sudo parted /dev/sdc --script mklabel gpt mkpart xfspart xfs 0% 100%  >> $LOG
-sudo mkfs.xfs /dev/sdc1
-sudo partprobe /dev/sdc1 
+sudo parted /dev/xvdd --script mklabel gpt mkpart xfspart xfs 0% 100%  >> $LOG
+sudo mkfs.xfs /dev/xvdd1
+sudo partprobe /dev/xvdd1 
 sudo mkdir -p /oracle
-sudo mount /dev/sdc1 /oracle
+sudo mount /dev/xvdd1 /oracle
 sudo echo UUID=\"`(blkid /dev/sdc1 -s UUID -o value)`\" /oracle        xfs     defaults,nofail         1       2 >> /etc/fstab
 
 #tareas administrativas
@@ -51,7 +47,7 @@ sudo mkdir -p /oracle/database/19C/soft
 
 # instalacion de paquetes
 # echo "instalamos paquetes" >> $LOG
-sudo yum install oracle-database-preinstall-19c-1.0-3.el7.x86_64 -y >> $LOG
+sudo yum install oracle-database-preinstall-19c-1.0-3.el7.x86_64 -y
 sudo chown -R oracle:oinstall /oracle
 sudo yum install oracleasm -y >> $LOG
 sudo yum install oracleasm-support.x86_64 -y >> $LOG
@@ -74,13 +70,14 @@ sudo groupadd -g 54329 asmadmin
 echo "formateamos disco3 en asm" >> $LOG
 
 echo "----------------Creacion de disco en asm----------------">> $LOG
-sudo parted /dev/sdd --script mklabel gpt mkpart xfspart xfs 0% 100% 
-sudo oracleasm createdisk DATA /dev/sdd1 >> $LOG
+sudo parted /dev/xvde --script mklabel gpt mkpart xfspart xfs 0% 100% 
+sudo oracleasm createdisk DATA /dev/xvde1 >> $LOG
 sudo oracleasm scandisks >> $LOG
 sudo oracleasm listdisks >> $LOG
 
 
 # Descarga de software
+sudo yum install wget -y
 echo "----------------Descarga de ficheros del repositorio----------------">> $LOG
 sudo wget $RUTA$FICH1 -O /tmp/$FICH1 
 sudo wget $RUTA$FICH2 -O /tmp/$FICH2 

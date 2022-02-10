@@ -67,10 +67,15 @@ variable "Location" {
         default = "10"
       }
  # EBS 
-      variable "vol_name" {
-      type        = string
-      default     = "vol_0"
-      description = "The name of the EBS"
+      variable "VOL-ORACLE-SIZE" {
+      type        = number
+      default     = 25
+      description = "tamano particion oracle"
+      }
+      variable "VOL-DATA-SIZE" {
+      type        = number
+      default     = 10
+      description = "Tamano particion datos"
       }
       variable "ebs_volume_enabled" {
       type        = bool
@@ -87,18 +92,10 @@ variable "Location" {
       default     = 0
       description = "Amount of provisioned IOPS. This must be set with a volume_type of io1."
       }
-
-      variable "ebs_volume_size" {
-       type        = number
-       default     = 8
-       description = "Size of the ebs volume in gigabytes."
-      }
+      
       variable "ebs_device_name" {
       type        = list(string)
       default     = ["/dev/xvdb", "/dev/xvdc", "/dev/xvdd", "/dev/xvde", "/dev/xvdf", "/dev/xvdg", "/dev/xvdh", "/dev/xvdi", "/dev/xvdj", "/dev/xvdk", "/dev/xvdl", "/dev/xvdm", "/dev/xvdn", "/dev/xvdo", "/dev/xvdp", "/dev/xvdq", "/dev/xvdr", "/dev/xvds", "/dev/xvdt", "/dev/xvdu", "/dev/xvdv", "/dev/xvdw", "/dev/xvdx", "/dev/xvdy", "/dev/xvdz"]
       description = "Name of the EBS device to mount."
       }
-
-      variable "instance_cpus" {
-      default = 1
-      }        
+              
