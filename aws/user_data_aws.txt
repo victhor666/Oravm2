@@ -117,10 +117,10 @@ sudo sed -i "s/oracle.install.asm.monitorPassword=/oracle.install.asm.monitorPas
 #creamos otro par de directorios
 echo "----------------Creacion de directorios y cambio de permisos----------------">> $LOG
 sudo mkdir /oracle_base
-sudo chown oracle:oinstall /oracle_base
+sudo chown -R oracle:oinstall /oracle_base
 sudo chmod 755 /oracle_base
 sudo mkdir /oraInventory/
-sudo chown oracle:oinstall /oraInventory/
+sudo chown -R oracle:oinstall /oraInventory/
 sudo chmod 755 /oraInventory/
 
 #ejecutamos la instalacion de grid

@@ -165,7 +165,7 @@ resource "aws_instance" "Oracle-VM" {
         delete_on_termination = true
         encrypted             = false
         # iops                  = 100
-        volume_size           = 30
+        volume_size           = 40
     }
 }
 
