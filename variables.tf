@@ -8,11 +8,11 @@ variable "Proyecto" {
   default="Oracle"
 }
 #variables para aws
-variable "Region-aws" {
-  type=string
-  default="eu-central-1"
-}
-variable "Profile" {
-  type=string
-  default="default"
-}
+# variable "Region-aws" {
+#   type=string
+#   default="eu-central-1"
+# }
+# variable "Profile" {
+#   type=string
+#   default="default"
+# }

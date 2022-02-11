@@ -1,5 +1,7 @@
 #variables para los nombres, tienen que venir del principal
-# GENERALES
+#############
+# GENERALES #
+#############
 variable "Proyecto"{
   type=string
 }
@@ -22,16 +24,6 @@ variable "subnet_cidr" {
 #########
 #SERVIDOR
 #########
-variable "Proyecto" {
-type=string
-}
-
-variable "Location" {
-type=string  
-}
-variable  "resource_group_name"{
-type=string
-}
 
 variable  "subnetid"{
 type=string
