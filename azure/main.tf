@@ -95,7 +95,7 @@ resource "azurerm_public_ip" "IpPublica" {
 
 resource "azurerm_network_interface_security_group_association" "AsocSG" {
   network_interface_id      = azurerm_network_interface.OraNic.id
-  network_security_group_id = var.network_security_group_id
+  network_security_group_id = azurerm_network_security_groupOracle-NSG.id
 }
 resource "azurerm_linux_virtual_machine" "OraVm" {
   name                            = "${var.Proyecto}-VM"
@@ -145,7 +145,7 @@ resource "azurerm_managed_disk" "disco2" {
   disk_size_gb                    = var.disco2_size
 }
 resource "azurerm_managed_disk" "disco3" {
-  name                            = "${var.prefix}-vm-disco3"
+  name                            = "${var.Proyecto}-vm-disco3"
   location                        = azurerm_resource_group.RG.location
   resource_group_name             = azurerm_resource_group.RG.name
   storage_account_type            = "Standard_LRS"

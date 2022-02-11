@@ -10,7 +10,10 @@ output "vnetaddress" {
   description = "CIDR de la vnet "
   value       = azurerm_virtual_network.Oracle-VNET.address_space
 }
-
+output "sgname" {
+  description = "Nombre de la subnet "
+  value       = azurerm_subnet.Oracle-SUBNET.name
+}
 output "subnetname" {
   description = "Nombre de la subred creada "
   value       = azurerm_subnet.Oracle-SUBNET.name

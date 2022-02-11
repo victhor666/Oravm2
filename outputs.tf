@@ -23,10 +23,7 @@ output "vnet_dedicated_security_group_Name" {
   description = "Nombre del grupo de seguridad aplicado a la subred "
   value       = module.azure.sgname
 }
-output "vnet_dedicated_security_ingress_rules" {
-  description = "Reglas de entrada del grupo de seguridad "
-  value       = module.azure.sgirules
-}
+
 
 ##########################################
 #Información de la parte de red de aws  ##
