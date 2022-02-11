@@ -3,7 +3,7 @@
 #################################
 resource "azurerm_resource_group" "RG" {
   name     = "${var.Proyecto}-RG"
-  location = var.Location
+  location = var.Region
 }
 
 ############################
