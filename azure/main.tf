@@ -86,7 +86,7 @@ resource "azurerm_network_interface" "OraNic" {
     public_ip_address_id          = azurerm_public_ip.IpPublica.id
   }
 }
-resource "azurerm_public_ip" "IpPublica" {
+resource "  " "IpPublica" {
   name                = "IP-Publica"
   location            = var.Region
   resource_group_name = azurerm_resource_group.RG.name
@@ -131,49 +131,52 @@ resource "azurerm_linux_virtual_machine" "OraVm" {
     storage_account_type = "Standard_LRS"
     disk_size_gb         = var.osdisk_size
     }
+  provisioner "local-exec" {
+    command = "sudo sed -i "s/DATABASENAME=ORCL/DATABASENAME=${DATABASENAME}/g" ~/Oravm2/azure/user_data_azure.txt"
+  }
   }
 #################################
 ## Agregamos un disco adicional##
 #################################
 
-resource "azurerm_managed_disk" "disco2" {
-  name                            = "${var.Proyecto}-vm-disco2"
-  location                        = var.Region
-  resource_group_name             = azurerm_resource_group.RG.name
-  storage_account_type            = "Standard_LRS"
-  create_option                   = "Empty"
-  disk_size_gb                    = var.disco2_size
-}
-resource "azurerm_managed_disk" "disco3" {
-  name                            = "${var.Proyecto}-vm-disco3"
-  location                        = var.Region
-  resource_group_name             = azurerm_resource_group.RG.name
-  storage_account_type            = "Standard_LRS"
-  create_option                   = "Empty"
-  disk_size_gb                    = var.disco3_size
-}
+# resource "azurerm_managed_disk" "disco2" {
+#   name                            = "${var.Proyecto}-vm-disco2"
+#   location                        = var.Region
+#   resource_group_name             = azurerm_resource_group.RG.name
+#   storage_account_type            = "Standard_LRS"
+#   create_option                   = "Empty"
+#   disk_size_gb                    = var.disco2_size
+# }
+# resource "azurerm_managed_disk" "disco3" {
+#   name                            = "${var.Proyecto}-vm-disco3"
+#   location                        = var.Region
+#   resource_group_name             = azurerm_resource_group.RG.name
+#   storage_account_type            = "Standard_LRS"
+#   create_option                   = "Empty"
+#   disk_size_gb                    = var.disco3_size
+# }
 #Las esperas son por que no se si hay forma de asignar letras concretas a los volumenes (como en aws) así que los montamos por orden
-resource "null_resource" "previous" {}
+# resource "null_resource" "previous" {}
 
-resource "time_sleep" "wait_90_seconds" {
-  depends_on = [null_resource.previous]
+# resource "time_sleep" "wait_90_seconds" {
+#   depends_on = [null_resource.previous]
 
-  create_duration = "90s"
-}
+#   create_duration = "90s"
+# }
 
-resource "azurerm_virtual_machine_data_disk_attachment" "disco2" {
-  managed_disk_id    = azurerm_managed_disk.disco2.id
-  virtual_machine_id = azurerm_linux_virtual_machine.OraVm.id
-  lun                = "1"
-  caching            = "ReadWrite"
-depends_on = [null_resource.previous]
-}
+# resource "azurerm_virtual_machine_data_disk_attachment" "disco2" {
+#   managed_disk_id    = azurerm_managed_disk.disco2.id
+#   virtual_machine_id = azurerm_linux_virtual_machine.OraVm.id
+#   lun                = "1"
+#   caching            = "ReadWrite"
+# depends_on = [null_resource.previous]
+# }
 
 
-resource "azurerm_virtual_machine_data_disk_attachment" "disco3" {
-  managed_disk_id    = azurerm_managed_disk.disco3.id
-  virtual_machine_id = azurerm_linux_virtual_machine.OraVm.id
-  lun                = "2"
-  caching            = "ReadWrite"
-  depends_on =[azurerm_virtual_machine_data_disk_attachment.disco2]
-}
+# resource "azurerm_virtual_machine_data_disk_attachment" "disco3" {
+#   managed_disk_id    = azurerm_managed_disk.disco3.id
+#   virtual_machine_id = azurerm_linux_virtual_machine.OraVm.id
+#   lun                = "2"
+#   caching            = "ReadWrite"
+#   depends_on =[azurerm_virtual_machine_data_disk_attachment.disco2]
+# }

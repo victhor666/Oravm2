@@ -12,6 +12,7 @@ FICH4="p31750108_190000_Linux-x86-64.zip"
 CONFIG1="auto_install_oracle_grid_19c.rsp"
 CONFIG2="auto_install_oracle_database_19c.rsp"
 LOG="/tmp/script.log"
+DATABASENAME="ORCL"
 ##################################################################################################
 
 sudo echo "Arrancamos el script de instalacion" > $LOG
