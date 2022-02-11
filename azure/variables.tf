@@ -8,9 +8,7 @@ variable "Proyecto"{
 variable "Location" {
   type=string
 }
-variable "resource_group_name" {
-  type=string
-}
+
 ###########################
 # variables para vnet
 ###########################
@@ -25,12 +23,6 @@ variable "subnet_cidr" {
 #SERVIDOR
 #########
 
-variable  "subnetid"{
-type=string
-}
-variable "network_security_group_id"{
-    type=string
-}
 
 variable "osdisk_size" {
   default = "30"

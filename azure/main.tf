@@ -18,7 +18,7 @@ resource "azurerm_virtual_network" "Oracle-VNET" {
 #################
 # SUBREDES
 #################
-resource "azurerm_subnet" "Oracle_Subnet" {
+resource "azurerm_subnet" "Oracle-SUBNET" {
   name                 = "${var.Proyecto}-SUBNET"
   resource_group_name = azurerm_resource_group.RG.name
   virtual_network_name = azurerm_virtual_network.Oracle-VNET.name
@@ -81,14 +81,14 @@ resource "azurerm_network_interface" "OraNic" {
 
   ip_configuration {
     name                          = "Configuracion-IP"
-    subnet_id                     = var.subnetid
+    subnet_id                     = azurerm_subnet.Oracle-SUBNET.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.IpPublica.id
   }
 }
 resource "azurerm_public_ip" "IpPublica" {
   name                = "IP-Publica"
-  location            = var.Location
+  location            = azurerm_resource_group.RG.location
   resource_group_name = azurerm_resource_group.RG.name
   allocation_method   = "Dynamic"
 }
@@ -99,7 +99,7 @@ resource "azurerm_network_interface_security_group_association" "AsocSG" {
 }
 resource "azurerm_linux_virtual_machine" "OraVm" {
   name                            = "${var.Proyecto}-VM"
-  location                        = var.Location
+  location                        = azurerm_resource_group.RG.location
   resource_group_name             = azurerm_resource_group.RG.name
   network_interface_ids           = [azurerm_network_interface.OraNic.id]
   size                            = var.vm_size
