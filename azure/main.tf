@@ -95,7 +95,7 @@ resource "azurerm_public_ip" "IpPublica" {
 
 resource "azurerm_network_interface_security_group_association" "AsocSG" {
   network_interface_id      = azurerm_network_interface.OraNic.id
-  network_security_group_id = azurerm_network_security_groupOracle-NSG.id
+  network_security_group_id = azurerm_network_security_group.Oracle-NSG.id
 }
 resource "azurerm_linux_virtual_machine" "OraVm" {
   name                            = "${var.Proyecto}-VM"
