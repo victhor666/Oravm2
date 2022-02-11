@@ -12,7 +12,7 @@ resource "azurerm_resource_group" "RG" {
 resource "azurerm_virtual_network" "Oracle-VNET" {
   name                = "${var.Proyecto}-VNET"
   resource_group_name = azurerm_resource_group.RG.name
-  location            = azurerm_resource_group.RG.location
+  location            = var.Region
   address_space       = [var.vnet_cidr]
 }
 #################
@@ -31,7 +31,7 @@ resource "azurerm_subnet" "Oracle-SUBNET" {
 
 resource "azurerm_network_security_group" "Oracle-NSG" {
   name                = "${var.Proyecto}-NSG"
-  location            = azurerm_resource_group.RG.location
+  location            = var.Region
   resource_group_name = azurerm_resource_group.RG.name
   security_rule {
     name                       = "Salida"
@@ -76,7 +76,7 @@ resource "azurerm_subnet_network_security_group_association" "NSG-SUB" {
 
 resource "azurerm_network_interface" "OraNic" {
   name                = "${var.Proyecto}-NIC"
-  location            = azurerm_resource_group.RG.location
+  location            = var.Region
   resource_group_name = azurerm_resource_group.RG.name
 
   ip_configuration {
@@ -88,7 +88,7 @@ resource "azurerm_network_interface" "OraNic" {
 }
 resource "azurerm_public_ip" "IpPublica" {
   name                = "IP-Publica"
-  location            = azurerm_resource_group.RG.location
+  location            = var.Region
   resource_group_name = azurerm_resource_group.RG.name
   allocation_method   = "Dynamic"
 }
@@ -99,7 +99,7 @@ resource "azurerm_network_interface_security_group_association" "AsocSG" {
 }
 resource "azurerm_linux_virtual_machine" "OraVm" {
   name                            = "${var.Proyecto}-VM"
-  location                        = azurerm_resource_group.RG.location
+  location                        = var.Region
   resource_group_name             = azurerm_resource_group.RG.name
   network_interface_ids           = [azurerm_network_interface.OraNic.id]
   size                            = var.vm_size
@@ -138,7 +138,7 @@ resource "azurerm_linux_virtual_machine" "OraVm" {
 
 resource "azurerm_managed_disk" "disco2" {
   name                            = "${var.Proyecto}-vm-disco2"
-  location                        = azurerm_resource_group.RG.location
+  location                        = var.Region
   resource_group_name             = azurerm_resource_group.RG.name
   storage_account_type            = "Standard_LRS"
   create_option                   = "Empty"
@@ -146,7 +146,7 @@ resource "azurerm_managed_disk" "disco2" {
 }
 resource "azurerm_managed_disk" "disco3" {
   name                            = "${var.Proyecto}-vm-disco3"
-  location                        = azurerm_resource_group.RG.location
+  location                        = var.Region
   resource_group_name             = azurerm_resource_group.RG.name
   storage_account_type            = "Standard_LRS"
   create_option                   = "Empty"

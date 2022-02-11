@@ -5,7 +5,7 @@
 variable "Proyecto"{
   type=string
 }
-variable "Location" {
+variable "Region" {
   type=string
 }
 
