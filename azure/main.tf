@@ -2,7 +2,7 @@
 # GRUPO DE RECURSOS            ##
 #################################
 resource "azurerm_resource_group" "RG" {
-  name     = "${var.prefix}-RG"
+  name     = "${var.Proyecto}-RG"
   location = var.Location
 }
 
@@ -12,7 +12,7 @@ resource "azurerm_resource_group" "RG" {
 resource "azurerm_virtual_network" "Oracle-VNET" {
   name                = "${var.Proyecto}-VNET"
   resource_group_name = azurerm_resource_group.RG.name
-  location            = var.Location
+  location            = azurerm_resource_group.RG.location
   address_space       = [var.vnet_cidr]
 }
 #################
@@ -31,8 +31,8 @@ resource "azurerm_subnet" "Oracle_Subnet" {
 
 resource "azurerm_network_security_group" "Oracle-NSG" {
   name                = "${var.Proyecto}-NSG"
-  location            =var.Location
-  resource_group_name = var.resource_group_name
+  location            = azurerm_resource_group.RG.location
+  resource_group_name = azurerm_resource_group.RG.name
   security_rule {
     name                       = "Salida"
     priority                   = 100
@@ -76,8 +76,8 @@ resource "azurerm_subnet_network_security_group_association" "NSG-SUB" {
 
 resource "azurerm_network_interface" "OraNic" {
   name                = "${var.Proyecto}-NIC"
-  location            = var.Location
-  resource_group_name = var.resource_group_name
+  location            = azurerm_resource_group.RG.location
+  resource_group_name = azurerm_resource_group.RG.name
 
   ip_configuration {
     name                          = "Configuracion-IP"
@@ -99,8 +99,8 @@ resource "azurerm_network_interface_security_group_association" "AsocSG" {
 }
 resource "azurerm_linux_virtual_machine" "OraVm" {
   name                            = "${var.Proyecto}-VM"
-  location            = var.Location
-  resource_group_name = azurerm_resource_group.RG.name
+  location                        = var.Location
+  resource_group_name             = azurerm_resource_group.RG.name
   network_interface_ids           = [azurerm_network_interface.OraNic.id]
   size                            = var.vm_size
   computer_name                   = "OracleVM"
