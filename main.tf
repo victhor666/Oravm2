@@ -17,7 +17,7 @@ provider "azurerm" {
     module "azure" {
     source = "./azure"
     Proyecto=var.Proyecto
-    Location=var.Region
+    Region=var.Region
     }
 #############################
 # SERVIDOR ORACLE EN AWS    #
