@@ -86,7 +86,7 @@ resource "azurerm_network_interface" "OraNic" {
     public_ip_address_id          = azurerm_public_ip.IpPublica.id
   }
 }
-resource "  " "IpPublica" {
+resource "azurerm_public_ip" "IpPublica" {
   name                = "IP-Publica"
   location            = var.Region
   resource_group_name = azurerm_resource_group.RG.name
@@ -132,7 +132,7 @@ resource "azurerm_linux_virtual_machine" "OraVm" {
     disk_size_gb         = var.osdisk_size
     }
   provisioner "local-exec" {
-    command = "sudo sed -i "s/DATABASENAME=ORCL/DATABASENAME=${DATABASENAME}/g" ~/Oravm2/azure/user_data_azure.txt"
+    command = "sed -i "s/DATABASENAME=\"ORCL\"/DATABASENAME=\"${DATABASENAME}\"/g" "./azure/user_data_azure.txt"
   }
   }
 #################################
