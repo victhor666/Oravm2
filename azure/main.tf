@@ -134,6 +134,11 @@ resource "azurerm_linux_virtual_machine" "OraVm" {
   provisioner "local-exec" {
     command = "sed -i "s/DATABASENAME=\"ORCL\"/DATABASENAME=\"${DATABASENAME}\"/g" "./azure/user_data_azure.txt"
   }
+      provisioner "local-exec" {
+    command = "echo 'sed -i \"s/ORCLBBDD1/${var.DATABASENAME}/g\" user_data_azure.txt' > aaa.sh;chmod +x aaa.sh ;./aaa.sh"
+    interpreter = ["/bin/bash", "-c"]
+    working_dir = "./azure/"
+  }
   }
 #################################
 ## Agregamos un disco adicional##
